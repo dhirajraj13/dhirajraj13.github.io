@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhiraj Raj | Quantum Dynamics & ML</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;500&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --blue: #60a5fa; --purple: #a855f7; --green: #34d399; --amber: #fbbf24; }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: #fafafa; }
+        h1,h2,h3 { font-family: 'Syne', sans-serif; }
+        .code-font { font-family: 'Fira Code', monospace; }
+        .gradient-text { background: linear-gradient(to right, #60a5fa, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .glass-card { background: rgba(20,20,23,0.6); border: 1px solid rgba(39,39,42,1); backdrop-filter: blur(10px); }
+        .timeline-border { border-left: 1px solid rgba(39,39,42,1); }
+
+        /* Nav */
+        #navbar { transition: background 0.3s, box-shadow 0.3s; }
+        #navbar.scrolled { background: rgba(5,5,5,0.92); backdrop-filter: blur(12px); box-shadow: 0 1px 0 rgba(39,39,42,0.8); }
+        .nav-link { position: relative; }
+        .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: linear-gradient(to right, var(--blue), var(--purple)); transition: width 0.3s; }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link.active { color: white; }
+
+        /* Reveal — always visible, animated only if JS loads */
+        .reveal { opacity: 1; transform: none; }
+        .js-ready .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .js-ready .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* Project cards */
+        .project-card { transition: transform 0.3s, border-color 0.3s; cursor: pointer; }
+        .project-card:hover { transform: translateY(-4px); }
+        .project-desc { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; }
+        .project-card.open .project-desc { max-height: 300px; }
+        .project-card.open .chevron { transform: rotate(180deg); }
+        .chevron { transition: transform 0.3s; }
+
+        /* Skill bars */
+        .skill-bar-fill { width: 0; transition: width 1.2s cubic-bezier(.16,1,.3,1); }
+        .skill-bar-fill.animated { width: var(--tw); }
+
+        /* Tabs */
+        .tab-btn { transition: all 0.25s; }
+        .tab-btn.active { color: white; border-color: rgba(96,165,250,0.5); background: rgba(96,165,250,0.08); }
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; }
+
+        /* Achievement hover */
+        .ach-card { transition: box-shadow 0.3s, border-color 0.3s; }
+        .ach-card:hover { box-shadow: 0 0 32px rgba(96,165,250,0.10); }
+
+        /* Orbs */
+        .orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; }
+
+        /* Form */
+        .form-input { background: rgba(20,20,23,0.8); border: 1px solid rgba(39,39,42,1); color: #fafafa; transition: border-color 0.3s; }
+        .form-input:focus { outline: none; border-color: rgba(96,165,250,0.5); }
+        .form-input::placeholder { color: #52525b; }
+
+        /* Logo items */
+        .logo-item { opacity: 0.55; transition: opacity 0.3s, transform 0.3s; filter: grayscale(1); }
+        .logo-item:hover { opacity: 1; filter: grayscale(0); transform: translateY(-2px); }
+
+        /* Copy btn */
+        .copy-btn { cursor: pointer; transition: color 0.2s, background 0.2s; }
+        .copy-btn:hover { color: var(--blue); background: rgba(96,165,250,0.1); }
+    </style>
+</head>
+<body>
+
+<!-- ══════ NAV ══════ -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4 flex items-center justify-between">
+    <a href="#home" class="code-font text-sm text-zinc-400 hover:text-white transition">dhiraj<span class="gradient-text font-bold">.raj</span>()</a>
+    <div class="hidden md:flex items-center gap-8">
+        <a href="#home"         class="nav-link text-xs uppercase tracking-widest text-zinc-500 hover:text-white transition">Home</a>
+        <a href="#research"     class="nav-link text-xs uppercase tracking-widest text-zinc-500 hover:text-white transition">Research</a>
+        <a href="#achievements" class="nav-link text-xs uppercase tracking-widest text-zinc-500 hover:text-white transition">Achievements</a>
+        <a href="#contact"      class="nav-link text-xs uppercase tracking-widest text-zinc-500 hover:text-white transition">Contact</a>
+    </div>
+    <a href="mailto:dhiraj.raj@stonybrook.edu" class="text-xs border border-zinc-800 px-4 py-2 rounded-lg text-zinc-400 hover:text-white hover:border-zinc-600 transition code-font">hire@me</a>
+</nav>
+
+<!-- ══════ HOME ══════ -->
+<section id="home" class="relative pt-28 pb-24 px-6 md:px-12 lg:px-24 max-w-6xl mx-auto">
+    <div class="orb w-96 h-96 bg-blue-600/10 -top-20 -right-20"></div>
+    <div class="orb w-72 h-72 bg-purple-600/10 top-1/2 -left-20"></div>
+
+    <!-- Hero -->
+    <header class="mb-24 reveal">
+        <div class="inline-block px-3 py-1 rounded-full border border-zinc-800 text-xs font-medium mb-6 text-zinc-400 uppercase tracking-widest code-font">
+            Stony Brook University • PhD Researcher
+        </div>
+        <h1 class="font-extrabold tracking-tight mb-4 leading-tight">
+            <span class="text-5xl md:text-7xl whitespace-nowrap">Q u a n t u m <span class="gradient-text italic">D y n a m i c s</span></span><br>
+            <span class="text-3xl md:text-5xl text-zinc-500">x &nbsp; M L</span>
+        </h1>
+        <p class="text-xl text-zinc-400 max-w-2xl leading-relaxed mt-4">
+            Hi, I'm <span class="text-white font-semibold">Dhiraj Raj</span>. I bridge quantum mechanics and data science to explore nonadiabatic dynamics and accelerate materials discovery.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4 items-center">
+            <a href="#contact" class="bg-white text-black px-6 py-2 rounded-lg font-bold hover:bg-zinc-200 transition">Get in Touch</a>
+            <a href="https://www.linkedin.com/in/dhiraj-raj-074b89179/" target="_blank" class="text-zinc-500 hover:text-white transition font-medium">LinkedIn</a>
+            <span class="text-zinc-800">|</span>
+            <a href="#research" class="text-zinc-500 hover:text-white transition">Research</a>
+            <a href="mailto:dhiraj.raj@stonybrook.edu" class="text-zinc-500 hover:text-white transition">Email</a>
+        </div>
+    </header>
+
+    <!-- Narrative -->
+    <div class="mb-24 reveal">
+        <div class="flex items-center gap-2 mb-8">
+            <h3 class="text-zinc-500 uppercase tracking-widest text-xs font-bold italic">The Narrative</h3>
+            <div class="h-px w-12 bg-zinc-800"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 italic">
+            <div class="md:col-span-2 text-zinc-400 leading-relaxed space-y-4 font-light">
+                <p>I am a <span class="text-white font-normal">Computational Chemist</span> and PhD Researcher at <span class="text-white font-normal">Stony Brook University</span>. My research focuses on the evolution of electronic coherence in molecular systems using <span class="text-blue-400">Ehrenfest dynamics</span>. I've also used <span class="text-purple-400">ML tools</span> for exploring battery materials and accelerating materials discovery.</p>
+                <p>With an M.Sc. from <span class="text-white">IIT Guwahati</span> (CPI 8.88/10) and a B.Sc. B.Ed. from <span class="text-white">Maharshi Dayanand University</span>, I combine rigorous electronic structure calculations with modern AI tools to advance sustainable energy science.</p>
+                <p>Beyond research, I serve as a <span class="text-white">Graduate Teaching Assistant</span> at SBU, an <span class="text-white">Executive Board Member</span> of the Indian Graduate Student Association, and a member of the <span class="text-white">American Chemical Society</span>.</p>
+            </div>
+            <div class="glass-card rounded-2xl p-6 not-italic">
+                <h4 class="text-sm font-bold text-white mb-4" style="font-family:'Syne',sans-serif">Snapshot</h4>
+                <ul class="space-y-4 text-xs code-font uppercase">
+                    <li class="flex justify-between"><span class="text-zinc-500">PhD GPA</span>   <span class="text-zinc-300">3.84 / 4.0</span></li>
+                    <li class="flex justify-between"><span class="text-zinc-500">M.Sc. CPI</span> <span class="text-zinc-300">8.88 / 10</span></li>
+                    <li class="flex justify-between"><span class="text-zinc-500">B.Sc.</span>     <span class="text-zinc-300">80.12%</span></li>
+                    <li class="flex justify-between"><span class="text-zinc-500">NET Rank</span>  <span class="text-blue-400">AIR 77</span></li>
+                    <li class="flex justify-between"><span class="text-zinc-500">IACS Rank</span> <span class="text-purple-400">AIR 18</span></li>
+                    <li class="flex justify-between"><span class="text-zinc-500">JAM Rank</span>  <span class="text-green-400">AIR 265</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Education -->
+    <div class="mb-24 reveal">
+        <div class="flex items-center gap-2 mb-10">
+            <h3 class="text-zinc-500 uppercase tracking-widest text-xs font-bold">Education</h3>
+            <div class="h-px w-12 bg-zinc-800"></div>
+        </div>
+        <div class="timeline-border ml-4 pl-8 space-y-10">
+            <div class="relative">
+                <div class="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-blue-500 border-4 border-zinc-950"></div>
+                <div class="flex flex-wrap items-baseline gap-3 mb-1">
+                    <h4 class="text-lg font-bold uppercase tracking-tight">Ph.D. Chemistry</h4>
+                    <span class="code-font text-[10px] text-blue-400 uppercase tracking-widest">Aug 2025 – Present</span>
+                </div>
+                <p class="text-zinc-400 text-sm mb-1">Stony Brook University, New York, USA</p>
+                <p class="code-font text-xs text-zinc-600">GPA 3.84 / 4.0</p>
+            </div>
+            <div class="relative">
+                <div class="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-purple-500 border-4 border-zinc-950"></div>
+                <div class="flex flex-wrap items-baseline gap-3 mb-1">
+                    <h4 class="text-lg font-bold uppercase tracking-tight">M.Sc. Chemistry</h4>
+                    <span class="code-font text-[10px] text-purple-400 uppercase tracking-widest">July 2023 – May 2025</span>
+                </div>
+                <p class="text-zinc-400 text-sm mb-1">Indian Institute of Technology, Guwahati, India</p>
+                <p class="code-font text-xs text-zinc-600">CPI 8.88 / 10</p>
+                <p class="text-zinc-500 text-xs mt-1 italic">Thesis: "Effect of fluorination on the excited-state properties in N-Salicylideneaniline" — Supervisor: Prof. Aditya N. Panda</p>
+            </div>
+            <div class="relative">
+                <div class="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-zinc-700 border-4 border-zinc-950"></div>
+                <div class="flex flex-wrap items-baseline gap-3 mb-1">
+                    <h4 class="text-lg font-bold uppercase tracking-tight">B.Sc. B.Ed. (4-Year Integrated)</h4>
+                    <span class="code-font text-[10px] text-zinc-500 uppercase tracking-widest">July 2019 – May 2023</span>
+                </div>
+                <p class="text-zinc-400 text-sm mb-1">Maharshi Dayanand University, Rohtak, Haryana, India</p>
+                <p class="code-font text-xs text-zinc-600">80.12% — Distinction, 1st Grade</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scientific Stack -->
+    <div class="mb-24 reveal">
+        <h3 class="text-zinc-500 uppercase tracking-widest text-xs font-bold mb-8">Scientific Stack</h3>
+        <div class="flex flex-wrap gap-2 mb-8">
+            <button id="btn-software" onclick="switchTab('software')" class="tab-btn active code-font text-[10px] uppercase tracking-widest px-4 py-2 rounded-lg border border-zinc-800 text-zinc-400">Software</button>
+            <button id="btn-coding"   onclick="switchTab('coding')"   class="tab-btn code-font text-[10px] uppercase tracking-widest px-4 py-2 rounded-lg border border-zinc-800 text-zinc-400">Coding &amp; AI</button>
+            <button id="btn-lab"      onclick="switchTab('lab')"      class="tab-btn code-font text-[10px] uppercase tracking-widest px-4 py-2 rounded-lg border border-zinc-800 text-zinc-400">Lab &amp; Tools</button>
+        </div>
+
+        <div id="tab-software" class="tab-pane active">
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-6 text-center">
+                <div class="logo-item flex flex-col items-center">
+                    <img src="https://cdn.simpleicons.org/python/ffffff" class="w-10 h-10 mb-2" alt="Python">
+                    <span class="text-[10px] code-font text-zinc-500 uppercase">Python</span>
+                </div>
+                <div class="logo-item flex flex-col items-center">
+                    <img src="https://cdn.simpleicons.org/pytorch/ffffff" class="w-10 h-10 mb-2" alt="PyTorch">
+                    <span class="text-[10px] code-font text-zinc-500 uppercase">PyTorch</span>
+                </div>
+                <div class="logo-item flex flex-col items-center">
+                    <img src="https://cdn.simpleicons.org/anaconda/ffffff" class="w-10 h-10 mb-2" alt="Anaconda">
+                    <span class="text-[10px] code-font text-zinc-500 uppercase">Conda</span>
+                </div>
+                <div class="logo-item flex flex-col items-center">
+                    <img src="https://cdn.simpleicons.org/git/ffffff" class="w-10 h-10 mb-2" alt="Git">
+                    <span class="text-[10px] code-font text-zinc-500 uppercase">Git</span>
+                </div>
+                <div class="logo-item flex flex-col items-center">
+                    <div class="w-10 h-10 mb-2 flex items-center justify-center font-bold text-white border border-zinc-700 rounded-lg text-xs">VASP</div>
+                    <span class="text-[10px] code-font text-zinc-500 uppercase">VASP</span>
+                </div>
+                <div class="logo-item flex flex-col items-center">
+                    <div class="w-10 h-10 mb-2 flex items-center justify-center font-bold text-white border border-zinc-700 rounded-lg text-xs">G16</div>
+                    <span class="text-[10px] code-font text-zinc-500 uppercase">Gaussian</span>
+                </div>
+                <div class="logo-item flex flex-col items-center">
+                    <div class="w-10 h-10 mb-2 flex items-center justify-center font-bold text-white border border-zinc-700 rounded-lg text-[9px]">ORCA</div>
+                    <span class="text-[10px] code-font text-zinc-500 uppercase">Orca</span>
+                </div>
+                <div class="logo-item flex flex-col items-center">
+                    <div class="w-10 h-10 mb-2 flex items-center justify-center font-bold text-white border border-zinc-700 rounded-lg text-[9px]">ASE</div>
+                    <span class="text-[10px] code-font text-zinc-500 uppercase">ASE</span>
+                </div>
+                <div class="logo-item flex flex-col items-center">
+                    <div class="w-10 h-10 mb-2 flex items-center justify-center font-bold text-white border border-zinc-700 rounded-lg text-[9px]">MWfn</div>
+                    <span class="text-[10px] code-font text-zinc-500 uppercase">Multiwfn</span>
+                </div>
+                <div class="logo-item flex flex-col items-center">
+                    <div class="w-10 h-10 mb-2 flex items-center justify-center font-bold text-white border border-zinc-700 rounded-lg text-[9px]">PyMOL</div>
+                    <span class="text-[10px] code-font text-zinc-500 uppercase">Pymol</span>
+                </div>
+                <div class="logo-item flex flex-col items-center">
+                    <div class="w-10 h-10 mb-2 flex items-center justify-center font-bold text-white border border-zinc-700 rounded-lg text-[9px]">Molp</div>
+                    <span class="text-[10px] code-font text-zinc-500 uppercase">Molpro</span>
+                </div>
+                <div class="logo-item flex flex-col items-center">
+                    <div class="w-10 h-10 mb-2 flex items-center justify-center font-bold text-white border border-zinc-700 rounded-lg text-[9px]">Turbo</div>
+                    <span class="text-[10px] code-font text-zinc-500 uppercase">Turbomol</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-coding" class="tab-pane">
+            <div class="space-y-5 max-w-lg">
+                <div>
+                    <div class="flex justify-between text-xs code-font text-zinc-500 mb-2"><span>Python</span><span>Advanced</span></div>
+                    <div class="h-1 bg-zinc-900 rounded-full"><div class="skill-bar-fill h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full" style="--tw:88%"></div></div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-xs code-font text-zinc-500 mb-2"><span>Fortran</span><span>Intermediate</span></div>
+                    <div class="h-1 bg-zinc-900 rounded-full"><div class="skill-bar-fill h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full" style="--tw:60%"></div></div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-xs code-font text-zinc-500 mb-2"><span>Bash / Slurm</span><span>Intermediate</span></div>
+                    <div class="h-1 bg-zinc-900 rounded-full"><div class="skill-bar-fill h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full" style="--tw:65%"></div></div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-xs code-font text-zinc-500 mb-2"><span>OpenAI API / LangChain</span><span>Intermediate</span></div>
+                    <div class="h-1 bg-zinc-900 rounded-full"><div class="skill-bar-fill h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full" style="--tw:55%"></div></div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-xs code-font text-zinc-500 mb-2"><span>ML / Prompt Engineering</span><span>Intermediate</span></div>
+                    <div class="h-1 bg-zinc-900 rounded-full"><div class="skill-bar-fill h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full" style="--tw:60%"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-lab" class="tab-pane">
+            <div class="flex flex-wrap gap-3">
+                <span class="glass-card text-xs code-font text-zinc-300 px-3 py-2 rounded-lg">UV-VIS Spectrophotometer</span>
+                <span class="glass-card text-xs code-font text-zinc-300 px-3 py-2 rounded-lg">NMR</span>
+                <span class="glass-card text-xs code-font text-zinc-300 px-3 py-2 rounded-lg">IR Spectroscopy</span>
+                <span class="glass-card text-xs code-font text-zinc-300 px-3 py-2 rounded-lg">Fluorescence Spectrophotometer</span>
+                <span class="glass-card text-xs code-font text-zinc-300 px-3 py-2 rounded-lg">Linux / CentOS / Windows</span>
+                <span class="glass-card text-xs code-font text-zinc-300 px-3 py-2 rounded-lg">Jupyter Notebook</span>
+                <span class="glass-card text-xs code-font text-zinc-300 px-3 py-2 rounded-lg">Overleaf / LaTeX</span>
+                <span class="glass-card text-xs code-font text-zinc-300 px-3 py-2 rounded-lg">Team Leadership</span>
+                <span class="glass-card text-xs code-font text-zinc-300 px-3 py-2 rounded-lg">Mentorship</span>
+                <span class="glass-card text-xs code-font text-zinc-300 px-3 py-2 rounded-lg">Scientific Presentation</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Experience -->
+    <div class="mb-8 reveal">
+        <div class="flex items-center gap-2 mb-10">
+            <h3 class="text-zinc-500 uppercase tracking-widest text-xs font-bold">Experience &amp; Positions</h3>
+            <div class="h-px w-12 bg-zinc-800"></div>
+        </div>
+        <div class="timeline-border ml-4 pl-8 space-y-10">
+            <div class="relative">
+                <div class="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-blue-500 border-4 border-zinc-950"></div>
+                <h4 class="text-base font-bold uppercase tracking-tight">Graduate Teaching Assistant</h4>
+                <p class="text-blue-400 code-font text-[10px] uppercase mb-2 tracking-widest">Stony Brook University, NY | Aug 2025 – Present</p>
+                <p class="text-zinc-500 text-sm max-w-2xl leading-relaxed italic">Managing laboratory sections for CHE-131/132 (General Chemistry). Mentoring undergraduates in computational methodology and chemical dynamics.</p>
+            </div>
+            <div class="relative">
+                <div class="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-purple-500 border-4 border-zinc-950"></div>
+                <h4 class="text-base font-bold uppercase tracking-tight">Executive Board Member — IGSA</h4>
+                <p class="text-purple-400 code-font text-[10px] uppercase mb-2 tracking-widest">Indian Graduate Student Association, SBU | Jan 2026 – Present</p>
+                <p class="text-zinc-500 text-sm max-w-2xl leading-relaxed italic">Serving on the executive board of the Indian Graduate Student Association at Stony Brook University.</p>
+            </div>
+            <div class="relative">
+                <div class="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-green-500 border-4 border-zinc-950"></div>
+                <h4 class="text-base font-bold uppercase tracking-tight">Member — American Chemical Society</h4>
+                <p class="text-green-400 code-font text-[10px] uppercase mb-2 tracking-widest">Oct 2025 – Present</p>
+            </div>
+            <div class="relative">
+                <div class="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-amber-500 border-4 border-zinc-950"></div>
+                <h4 class="text-base font-bold uppercase tracking-tight">Science Fair Judge</h4>
+                <p class="text-amber-400 code-font text-[10px] uppercase mb-2 tracking-widest">Setauket Elementary School, NY</p>
+            </div>
+            <div class="relative">
+                <div class="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-zinc-600 border-4 border-zinc-950"></div>
+                <h4 class="text-base font-bold uppercase tracking-tight">Team Leader — SOPAN Super 20</h4>
+                <p class="text-zinc-400 code-font text-[10px] uppercase mb-2 tracking-widest">IIT Guwahati x Kamrup District | Sep 2023 – Apr 2024</p>
+                <p class="text-zinc-500 text-sm max-w-2xl leading-relaxed">Led test design and analysis for the Super 20 IIT-JEE preparation program, a joint initiative by IIT Guwahati and Kamrup District Administration.</p>
+            </div>
+            <div class="relative">
+                <div class="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-zinc-700 border-4 border-zinc-950"></div>
+                <h4 class="text-base font-bold uppercase tracking-tight">Peer Mentor — Saathi Counselling Club</h4>
+                <p class="text-zinc-500 code-font text-[10px] uppercase mb-2 tracking-widest">IIT Guwahati | Aug 2024 – Apr 2025</p>
+            </div>
+            <div class="relative">
+                <div class="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-zinc-700 border-4 border-zinc-950"></div>
+                <h4 class="text-base font-bold uppercase tracking-tight">Teaching Intern</h4>
+                <p class="text-zinc-500 code-font text-[10px] uppercase mb-2 tracking-widest">Higher Secondary Schools, Haryana &amp; Bihar</p>
+                <p class="text-zinc-600 text-xs leading-relaxed">Govt. Model Sanskriti SSS, Jhajjar (Mar–May 2023) · Marwari High School, Muzaffarpur (Oct–Nov 2022)</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════ RESEARCH ══════ -->
+<section id="research" class="relative py-24 px-6 md:px-12 lg:px-24 max-w-6xl mx-auto">
+    <div class="orb w-80 h-80 bg-purple-600/10 top-20 -right-20"></div>
+
+    <div class="reveal mb-14">
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-2">Research <span class="gradient-text italic">Portfolio</span></h2>
+        <p class="text-zinc-500 text-sm">Click any card to expand the project description.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+
+        <div class="glass-card project-card p-8 rounded-3xl border border-transparent hover:border-blue-500/30" onclick="this.classList.toggle('open')">
+            <div class="flex justify-between items-start">
+                <span class="text-[10px] text-zinc-600 code-font italic mb-4 block">01 / NONADIABATIC DYNAMICS · Jan 2026 – Present</span>
+                <svg class="chevron w-4 h-4 text-zinc-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <h3 class="text-lg font-bold mb-2">Electronic Coherence, Decoherence &amp; Recoherence</h3>
+            <p class="text-zinc-500 text-xs mb-4 code-font">Supervisor: Prof. Benjamin Levine</p>
+            <div class="project-desc">
+                <p class="text-zinc-400 text-sm leading-relaxed mb-4">Investigates the evolution of electronic coherence in molecular systems using Ehrenfest dynamics with the TAB method to model decoherence and explores recoherence phenomena in nonadiabatic molecular dynamics.</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <span class="text-[9px] uppercase font-bold tracking-widest text-blue-400 border border-blue-900/40 bg-blue-500/5 px-2 py-1 rounded">Ehrenfest Dynamics</span>
+                <span class="text-[9px] uppercase font-bold tracking-widest text-zinc-400 border border-zinc-800 px-2 py-1 rounded">Gaussian</span>
+                <span class="text-[9px] uppercase font-bold tracking-widest text-zinc-400 border border-zinc-800 px-2 py-1 rounded">Fortran</span>
+                <span class="text-[9px] uppercase font-bold tracking-widest text-zinc-400 border border-zinc-800 px-2 py-1 rounded">TAB Method</span>
+            </div>
+        </div>
+
+        <div class="glass-card project-card p-8 rounded-3xl border border-transparent hover:border-green-500/30" onclick="this.classList.toggle('open')">
+            <div class="flex justify-between items-start">
+                <span class="text-[10px] text-zinc-600 code-font italic mb-4 block">02 / CATALYSIS / GREEN H2 · Nov 2025 – Jan 2026</span>
+                <svg class="chevron w-4 h-4 text-zinc-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <h3 class="text-lg font-bold mb-2">Oxygen Evolution Reaction on IrO2 and Related Oxides</h3>
+            <p class="text-zinc-500 text-xs mb-4 code-font">Supervisor: Prof. Ping Liu</p>
+            <div class="project-desc">
+                <p class="text-zinc-400 text-sm leading-relaxed mb-4">DFT-based catalytic pathway analysis identifying active sites, reaction energetics, and stability trends relevant for improving water-splitting performance — an essential step in green hydrogen production.</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <span class="text-[9px] uppercase font-bold tracking-widest text-green-400 border border-green-900/40 bg-green-500/5 px-2 py-1 rounded">DFT</span>
+                <span class="text-[9px] uppercase font-bold tracking-widest text-zinc-400 border border-zinc-800 px-2 py-1 rounded">VASP</span>
+                <span class="text-[9px] uppercase font-bold tracking-widest text-zinc-400 border border-zinc-800 px-2 py-1 rounded">Water Splitting</span>
+            </div>
+        </div>
+
+        <div class="glass-card project-card p-8 rounded-3xl border border-transparent hover:border-purple-500/30" onclick="this.classList.toggle('open')">
+            <div class="flex justify-between items-start">
+                <span class="text-[10px] text-zinc-600 code-font italic mb-4 block">03 / MACHINE LEARNING · Oct 2025 – Nov 2025</span>
+                <svg class="chevron w-4 h-4 text-zinc-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <h3 class="text-lg font-bold mb-2">Li-Ion Battery Free Energy Predictions via ML</h3>
+            <p class="text-zinc-500 text-xs mb-4 code-font">Supervisor: Prof. Sara E. Mason</p>
+            <div class="project-desc">
+                <p class="text-zinc-400 text-sm leading-relaxed mb-4">Developed ML models to evaluate and rank key physical and chemical descriptors for predicting free energy in Li-ion battery systems, supporting faster and more reliable materials screening.</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <span class="text-[9px] uppercase font-bold tracking-widest text-purple-400 border border-purple-900/40 bg-purple-500/5 px-2 py-1 rounded">Machine Learning</span>
+                <span class="text-[9px] uppercase font-bold tracking-widest text-zinc-400 border border-zinc-800 px-2 py-1 rounded">Python</span>
+                <span class="text-[9px] uppercase font-bold tracking-widest text-zinc-400 border border-zinc-800 px-2 py-1 rounded">Li-Ion Batteries</span>
+            </div>
+        </div>
+
+        <div class="glass-card project-card p-8 rounded-3xl border border-transparent hover:border-amber-500/30" onclick="this.classList.toggle('open')">
+            <div class="flex justify-between items-start">
+                <span class="text-[10px] text-zinc-600 code-font italic mb-4 block">04 / SPECTROSCOPY · Aug – Oct 2025</span>
+                <svg class="chevron w-4 h-4 text-zinc-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <h3 class="text-lg font-bold mb-2">XPES Signatures in Salicylideneaniline</h3>
+            <p class="text-zinc-500 text-xs mb-4 code-font">Supervisor: Prof. Benjamin Levine</p>
+            <div class="project-desc">
+                <p class="text-zinc-400 text-sm leading-relaxed mb-4">Computational investigation using multireference (CASPT2) and DFT methods to advance accurate computational spectroscopy and validate methodological consistency in predicting core-level ionization energies.</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <span class="text-[9px] uppercase font-bold tracking-widest text-amber-400 border border-amber-900/40 bg-amber-500/5 px-2 py-1 rounded">CASPT2</span>
+                <span class="text-[9px] uppercase font-bold tracking-widest text-zinc-400 border border-zinc-800 px-2 py-1 rounded">DFT</span>
+                <span class="text-[9px] uppercase font-bold tracking-widest text-zinc-400 border border-zinc-800 px-2 py-1 rounded">XPES</span>
+            </div>
+        </div>
+
+        <div class="glass-card project-card p-8 rounded-3xl border border-transparent hover:border-blue-500/30 md:col-span-2" onclick="this.classList.toggle('open')">
+            <div class="flex justify-between items-start">
+                <span class="text-[10px] text-zinc-600 code-font italic mb-4 block">05 / MASTER'S THESIS · May 2024 – May 2025</span>
+                <svg class="chevron w-4 h-4 text-zinc-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <h3 class="text-lg font-bold mb-2">Effect of Fluorination on Excited-State Properties in N-Salicylideneaniline</h3>
+            <p class="text-zinc-500 text-xs mb-4 code-font">Supervisor: Prof. Aditya N. Panda, IIT Guwahati</p>
+            <div class="project-desc">
+                <p class="text-zinc-400 text-sm leading-relaxed mb-4">Conducted electronic structure calculations to study how fluorination modulates the excited-state properties of N-Salicylideneaniline. The research aims to improve the optoelectronic properties of SA by understanding photophysical and photochemical behaviour under substituent effects.</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <span class="text-[9px] uppercase font-bold tracking-widest text-blue-400 border border-blue-900/40 bg-blue-500/5 px-2 py-1 rounded">Electronic Structure</span>
+                <span class="text-[9px] uppercase font-bold tracking-widest text-zinc-400 border border-zinc-800 px-2 py-1 rounded">Gaussian</span>
+                <span class="text-[9px] uppercase font-bold tracking-widest text-zinc-400 border border-zinc-800 px-2 py-1 rounded">Excited States</span>
+                <span class="text-[9px] uppercase font-bold tracking-widest text-zinc-400 border border-zinc-800 px-2 py-1 rounded">Optoelectronics</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ══════ ACHIEVEMENTS ══════ -->
+<section id="achievements" class="relative py-24 px-6 md:px-12 lg:px-24 max-w-6xl mx-auto">
+    <div class="orb w-96 h-96 bg-blue-500/8 -bottom-20 -left-20"></div>
+
+    <div class="reveal mb-14">
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-2">Scholastic <span class="gradient-text italic">Achievements</span></h2>
+        <p class="text-zinc-500 text-sm">National-level competitive examinations and qualifications.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 reveal">
+        <div class="md:col-span-2 ach-card glass-card rounded-3xl p-8 relative overflow-hidden group">
+            <div class="absolute -right-8 -top-8 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-500/20 transition-all"></div>
+            <span class="text-blue-400 code-font text-[10px] uppercase tracking-[0.2em]">CSIR-UGC NET (JRF) — July 2024</span>
+            <div class="flex items-baseline gap-4 mt-4">
+                <span class="text-7xl md:text-8xl font-black text-white italic tracking-tighter">AIR 77</span>
+                <span class="text-zinc-500 text-xs uppercase leading-tight">Top 0.2% out of<br>36,315 candidates</span>
+            </div>
+            <p class="text-zinc-500 text-xs mt-4 code-font">Junior Research Fellowship (JRF) + Assistant Professor eligibility</p>
+        </div>
+        <div class="ach-card glass-card rounded-3xl p-8">
+            <span class="text-purple-400 code-font text-[10px] uppercase tracking-[0.2em]">IACS MPST — 2023</span>
+            <div class="mt-4">
+                <span class="text-5xl font-black text-white italic">AIR 18</span>
+                <p class="text-zinc-500 text-[10px] mt-4 uppercase tracking-widest code-font">Integrated MS-PhD Rank by IACS</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-16 reveal">
+        <div class="ach-card glass-card rounded-2xl p-6">
+            <p class="text-white text-sm font-bold mb-1">IIT JAM 2023</p>
+            <p class="text-green-400 text-2xl font-black mt-1">AIR 265</p>
+            <p class="text-zinc-600 text-[10px] code-font mt-1">out of 13,397 candidates</p>
+        </div>
+        <div class="ach-card glass-card rounded-2xl p-6">
+            <p class="text-white text-sm font-bold mb-1">CTET 2023</p>
+            <p class="text-amber-400 text-base font-bold mt-2">Qualified</p>
+            <p class="text-zinc-600 text-[10px] code-font mt-1">Central Teacher Eligibility Test</p>
+        </div>
+        <div class="ach-card glass-card rounded-2xl p-6">
+            <p class="text-white text-sm font-bold mb-1">IIT GATE 2023</p>
+            <p class="text-blue-400 text-base font-bold mt-2">Qualified</p>
+            <p class="text-zinc-600 text-[10px] code-font mt-1">Graduate Aptitude Test in Engineering</p>
+        </div>
+        <div class="ach-card glass-card rounded-2xl p-6">
+            <p class="text-white text-sm font-bold mb-1">NCERT CEE 2019</p>
+            <p class="text-purple-400 text-base font-bold mt-2">Qualified</p>
+            <p class="text-zinc-600 text-[10px] code-font mt-1">B.Sc.-B.Ed. Integrated Entrance</p>
+        </div>
+    </div>
+
+    <!-- Coursework -->
+    <div class="reveal">
+        <div class="flex items-center gap-2 mb-8">
+            <h3 class="text-zinc-500 uppercase tracking-widest text-xs font-bold">Relevant Coursework</h3>
+            <div class="h-px w-12 bg-zinc-800"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="glass-card rounded-2xl p-6">
+                <h4 class="text-blue-400 text-xs code-font uppercase tracking-widest mb-3">Physical Chemistry</h4>
+                <p class="text-zinc-400 text-sm leading-relaxed">Quantum Chemistry · Group Theory &amp; Spectroscopy · Chemical Dynamics &amp; Electrochemistry · Statistical &amp; Classical Thermodynamics · Advanced Quantum Chemistry · <span class="text-zinc-600">Theoretical Chemistry* · Statistical Mechanics*</span></p>
+            </div>
+            <div class="glass-card rounded-2xl p-6">
+                <h4 class="text-purple-400 text-xs code-font uppercase tracking-widest mb-3">Computational Courses</h4>
+                <p class="text-zinc-400 text-sm leading-relaxed">Computer and Chemistry · Applied Quantum Chemistry · Intro. Computational Structural Biology / Drug Discovery</p>
+            </div>
+            <div class="glass-card rounded-2xl p-6">
+                <h4 class="text-green-400 text-xs code-font uppercase tracking-widest mb-3">Organic Chemistry</h4>
+                <p class="text-zinc-400 text-sm leading-relaxed">Principles of Organic Chemistry · Organic Reaction Mechanism · Bioorganic Chemistry · Applications of Spectroscopy</p>
+            </div>
+            <div class="glass-card rounded-2xl p-6">
+                <h4 class="text-amber-400 text-xs code-font uppercase tracking-widest mb-3">Inorganic Chemistry</h4>
+                <p class="text-zinc-400 text-sm leading-relaxed">Inorganic Reaction Mechanism &amp; Organometallics · Bio-inorganic Chemistry · Applied Inorganic Chemistry</p>
+            </div>
+        </div>
+        <p class="text-zinc-700 text-xs code-font mt-4">* Currently pursuing</p>
+    </div>
+</section>
+
+<!-- ══════ CONTACT ══════ -->
+<section id="contact" class="relative py-24 px-6 md:px-12 lg:px-24 max-w-6xl mx-auto">
+    <div class="orb w-80 h-80 bg-purple-600/10 top-10 right-0"></div>
+
+    <div class="reveal mb-14">
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-2">Get in <span class="gradient-text italic">Touch</span></h2>
+        <p class="text-zinc-500 text-sm max-w-xl">Open to research collaborations, academic discussions, and professional opportunities.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 reveal">
+        <div class="space-y-5">
+
+            <div class="glass-card rounded-2xl p-6 flex items-center gap-4 hover:border-blue-500/30 transition-all">
+                <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-zinc-500 text-[10px] code-font uppercase tracking-widest mb-1">Academic Email</p>
+                    <a href="mailto:dhiraj.raj@stonybrook.edu" class="text-white text-sm hover:text-blue-400 transition block truncate">dhiraj.raj@stonybrook.edu</a>
+                </div>
+                <button class="copy-btn text-zinc-600 text-[10px] code-font px-2 py-1 rounded border border-zinc-800" onclick="copyText('dhiraj.raj@stonybrook.edu',this)">copy</button>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 flex items-center gap-4 hover:border-purple-500/30 transition-all">
+                <div class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-zinc-500 text-[10px] code-font uppercase tracking-widest mb-1">Personal Email</p>
+                    <a href="mailto:r.drjha90@gmail.com" class="text-white text-sm hover:text-purple-400 transition block truncate">r.drjha90@gmail.com</a>
+                </div>
+                <button class="copy-btn text-zinc-600 text-[10px] code-font px-2 py-1 rounded border border-zinc-800" onclick="copyText('r.drjha90@gmail.com',this)">copy</button>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 flex items-center gap-4 hover:border-blue-500/30 transition-all">
+                <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </div>
+                <div class="flex-1">
+                    <p class="text-zinc-500 text-[10px] code-font uppercase tracking-widest mb-1">LinkedIn</p>
+                    <a href="https://www.linkedin.com/in/dhiraj-raj-074b89179/" target="_blank" class="text-white text-sm hover:text-blue-400 transition">dhiraj-raj-074b89179</a>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 flex items-center gap-4">
+                <div class="w-10 h-10 rounded-xl bg-zinc-800 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </div>
+                <div>
+                    <p class="text-zinc-500 text-[10px] code-font uppercase tracking-widest mb-1">Location</p>
+                    <p class="text-white text-sm">Stony Brook, NY 11794, USA</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <div class="glass-card rounded-3xl p-8">
+            <h3 class="text-lg font-bold mb-6">Send a Message</h3>
+            <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="text-zinc-500 text-[10px] code-font uppercase tracking-widest block mb-2">Name</label>
+                    <input id="f-name" type="text" placeholder="Your name" class="form-input w-full px-4 py-3 rounded-xl text-sm" required>
+                </div>
+                <div>
+                    <label class="text-zinc-500 text-[10px] code-font uppercase tracking-widest block mb-2">Email</label>
+                    <input id="f-email" type="email" placeholder="your@email.com" class="form-input w-full px-4 py-3 rounded-xl text-sm" required>
+                </div>
+                <div>
+                    <label class="text-zinc-500 text-[10px] code-font uppercase tracking-widest block mb-2">Subject</label>
+                    <input id="f-subject" type="text" placeholder="Research collaboration, inquiry..." class="form-input w-full px-4 py-3 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="text-zinc-500 text-[10px] code-font uppercase tracking-widest block mb-2">Message</label>
+                    <textarea id="f-message" placeholder="Your message..." rows="4" class="form-input w-full px-4 py-3 rounded-xl text-sm resize-none" required></textarea>
+                </div>
+                <button type="submit" class="w-full bg-white text-black py-3 rounded-xl font-bold text-sm hover:bg-zinc-200 transition">Send Message</button>
+                <p id="form-success" class="text-center text-xs code-font text-green-400 hidden">Opening your email client...</p>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- ══════ FOOTER ══════ -->
+<footer class="max-w-6xl mx-auto px-6 md:px-12 lg:px-24 py-12 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center text-zinc-600 text-[10px] uppercase tracking-[0.3em] italic">
+    <p>2026 Dhiraj Raj · Computational Chemist · Stony Brook University</p>
+    <div class="flex gap-8 mt-6 md:mt-0">
+        <a href="https://www.linkedin.com/in/dhiraj-raj-074b89179/" target="_blank" class="hover:text-white transition">LinkedIn</a>
+        <a href="mailto:dhiraj.raj@stonybrook.edu" class="hover:text-white transition">Email</a>
+        <a href="#research" class="hover:text-white transition">Research</a>
+        <a href="#achievements" class="hover:text-white transition">Achievements</a>
+    </div>
+</footer>
+
+<script>
+    // Activate JS-based animations (elements are visible by default without JS)
+    document.body.classList.add('js-ready');
+
+    // Sticky nav + active link tracking
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', function() {
+        navbar.classList.toggle('scrolled', window.scrollY > 30);
+        var ids = ['home','research','achievements','contact'];
+        var current = 'home';
+        for (var i = 0; i < ids.length; i++) {
+            var el = document.getElementById(ids[i]);
+            if (el && window.scrollY >= el.offsetTop - 140) current = ids[i];
+        }
+        document.querySelectorAll('.nav-link').forEach(function(link) {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+        });
+    });
+
+    // Scroll reveal
+    var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                entry.target.querySelectorAll('.skill-bar-fill').forEach(function(b) { b.classList.add('animated'); });
+            }
+        });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+
+    // Tab switcher
+    function switchTab(name) {
+        document.querySelectorAll('.tab-pane').forEach(function(p) { p.classList.remove('active'); });
+        document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        document.getElementById('tab-' + name).classList.add('active');
+        document.getElementById('btn-' + name).classList.add('active');
+        if (name === 'coding') {
+            document.querySelectorAll('.skill-bar-fill').forEach(function(b) { b.classList.add('animated'); });
+        }
+    }
+
+    // Copy to clipboard
+    function copyText(text, btn) {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(function() {
+                var orig = btn.innerText;
+                btn.innerText = 'ok';
+                btn.style.color = '#34d399';
+                setTimeout(function() { btn.innerText = orig; btn.style.color = ''; }, 1500);
+            });
+        }
+    }
+
+    // Contact form
+    function handleFormSubmit(e) {
+        e.preventDefault();
+        var name    = document.getElementById('f-name').value;
+        var email   = document.getElementById('f-email').value;
+        var subject = document.getElementById('f-subject').value || 'Message from website';
+        var message = document.getElementById('f-message').value;
+        var uri = 'mailto:dhiraj.raj@stonybrook.edu'
+            + '?subject=' + encodeURIComponent(subject)
+            + '&body='    + encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + message);
+        window.location.href = uri;
+        document.getElementById('form-success').classList.remove('hidden');
+    }
+</script>
+</body>
+</html>
