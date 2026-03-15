@@ -45,8 +45,8 @@
         /* Tabs */
         .tab-btn { transition: all 0.25s; }
         .tab-btn.active { color: white; border-color: rgba(96,165,250,0.5); background: rgba(96,165,250,0.08); }
-        .tab-pane { display: none; }
-        .tab-pane.active { display: block; }
+        .tab-pane { display: none !important; }
+        .tab-pane.active { display: block !important; }
 
         /* Achievement hover */
         .ach-card { transition: box-shadow 0.3s, border-color 0.3s; }
@@ -80,7 +80,7 @@
         <a href="#achievements" class="nav-link text-xs uppercase tracking-widest text-zinc-500 hover:text-white transition">Achievements</a>
         <a href="#contact"      class="nav-link text-xs uppercase tracking-widest text-zinc-500 hover:text-white transition">Contact</a>
     </div>
-    <a href="#contact" class="text-xs border border-zinc-800 px-4 py-2 rounded-lg text-zinc-400 hover:text-white hover:border-zinc-600 transition code-font">contact</a>
+    <a href="mailto:dhiraj.raj@stonybrook.edu" class="text-xs border border-zinc-800 px-4 py-2 rounded-lg text-zinc-400 hover:text-white hover:border-zinc-600 transition code-font">contact</a>
 </nav>
 
 <!-- ══════ HOME ══════ -->
@@ -105,7 +105,7 @@
             <a href="https://www.linkedin.com/in/dhiraj-raj-074b89179/" target="_blank" class="text-zinc-500 hover:text-white transition font-medium">LinkedIn</a>
             <span class="text-zinc-800">|</span>
             <a href="#research" class="text-zinc-500 hover:text-white transition">Research</a>
-            <a href="mailto:dhiraj.raj@stonybrook.edu" class="text-zinc-500 hover:text-white transition">Email</a>
+            <a href="/cdn-cgi/l/email-protection#187c70716a7972366a7972586b6c7776617a6a777773367d7c6d" class="text-zinc-500 hover:text-white transition">Email</a>
         </div>
     </header>
 
@@ -539,7 +539,7 @@
                 </div>
                 <div class="flex-1 min-w-0">
                     <p class="text-zinc-500 text-[10px] code-font uppercase tracking-widest mb-1">Academic Email</p>
-                    <a href="mailto:dhiraj.raj@stonybrook.edu" class="text-white text-sm hover:text-blue-400 transition block truncate">dhiraj.raj@stonybrook.edu</a>
+                    <a href="/cdn-cgi/l/email-protection#ddb9b5b4afbcb7f3afbcb79daea9b2b3a4bfafb2b2b6f3b8b9a8" class="text-white text-sm hover:text-blue-400 transition block truncate"><span class="__cf_email__" data-cfemail="a7c3cfced5c6cd89d5c6cde7d4d3c8c9dec5d5c8c8cc89c2c3d2">[email&#160;protected]</span></a>
                 </div>
                 <button class="copy-btn text-zinc-600 text-[10px] code-font px-2 py-1 rounded border border-zinc-800" onclick="copyText('dhiraj.raj@stonybrook.edu',this)">copy</button>
             </div>
@@ -550,7 +550,7 @@
                 </div>
                 <div class="flex-1 min-w-0">
                     <p class="text-zinc-500 text-[10px] code-font uppercase tracking-widest mb-1">Personal Email</p>
-                    <a href="mailto:r.drjha90@gmail.com" class="text-white text-sm hover:text-purple-400 transition block truncate">r.drjha90@gmail.com</a>
+                    <a href="/cdn-cgi/l/email-protection#51237f35233b3930686111363c30383d7f323e3c" class="text-white text-sm hover:text-purple-400 transition block truncate"><span class="__cf_email__" data-cfemail="a4d68ac0d6ceccc59d94e4c3c9c5cdc88ac7cbc9">[email&#160;protected]</span></a>
                 </div>
                 <button class="copy-btn text-zinc-600 text-[10px] code-font px-2 py-1 rounded border border-zinc-800" onclick="copyText('r.drjha90@gmail.com',this)">copy</button>
             </div>
@@ -619,13 +619,13 @@
     <p>2026 Dhiraj Raj · Computational Chemist · Stony Brook University</p>
     <div class="flex gap-8 mt-6 md:mt-0">
         <a href="https://www.linkedin.com/in/dhiraj-raj-074b89179/" target="_blank" class="hover:text-white transition">LinkedIn</a>
-        <a href="mailto:dhiraj.raj@stonybrook.edu" class="hover:text-white transition">Email</a>
+        <a href="/cdn-cgi/l/email-protection#34505c5d46555e1a46555e7447405b5a4d56465b5b5f1a515041" class="hover:text-white transition">Email</a>
         <a href="#research" class="hover:text-white transition">Research</a>
         <a href="#achievements" class="hover:text-white transition">Achievements</a>
     </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // Activate JS-based animations (elements are visible by default without JS)
     document.body.classList.add('js-ready');
 
@@ -682,4 +682,15 @@
     function handleFormSubmit(e) {
         e.preventDefault();
         var name    = document.getElementById('f-name').value;
-        var email   = document.getElementById('
+        var email   = document.getElementById('f-email').value;
+        var subject = document.getElementById('f-subject').value || 'Message from website';
+        var message = document.getElementById('f-message').value;
+        var uri = 'mailto:dhiraj.raj@stonybrook.edu'
+            + '?subject=' + encodeURIComponent(subject)
+            + '&body='    + encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + message);
+        window.location.href = uri;
+        document.getElementById('form-success').classList.remove('hidden');
+    }
+</script>
+</body>
+</html>
