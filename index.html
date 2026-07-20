@@ -22,7 +22,6 @@
         #navbar.scrolled { background: rgba(5,5,5,0.92); backdrop-filter: blur(12px); box-shadow: 0 1px 0 rgba(39,39,42,0.8); }
         .nav-link { position: relative; }
         .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: linear-gradient(to right, var(--blue), var(--purple)); transition: width 0.3s; }
-        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
         .nav-link.active { color: white; }
 
         /* Reveal — always visible, animated only if JS loads */
@@ -119,8 +118,7 @@
             <div class="md:col-span-2 text-zinc-400 leading-relaxed space-y-4 font-light">
                 <p>I am a <span class="text-white font-normal">Computational Chemist</span> and PhD Researcher at <span class="text-white font-normal">Stony Brook University</span>. My research focuses on the evolution of electronic coherence in molecular systems using <span class="text-blue-400">Ehrenfest dynamics</span>. I've also used <span class="text-purple-400">ML tools</span> for exploring battery materials and accelerating materials discovery.</p>
                 <p>With an M.Sc. from <span class="text-white">IIT Guwahati</span> (CPI 8.88/10) and a B.Sc. B.Ed. from <span class="text-white">Maharshi Dayanand University</span>, I combine rigorous electronic structure calculations with modern AI tools to advance sustainable energy science.</p>
-                <p>Beyond research, I serve as a <span class="text-white">Graduate Teaching Assistant</span> at SBU, an <span class="text-white">Executive Board Member</span> of the Indian Graduate Student Association, and a member of the <span class="text-white">American Chemical Society</span>.</p>
-            </div>
+                <p>Beyond research, I currently work as a <span class="text-white">SUNY Research Assistant</span> (since June 2026), having previously served as a <span class="text-white">Graduate Teaching Assistant</span> (until May 2026) at SBU. I also serve as the <span class="text-white">President</span> of the Indian Graduate Student Association, and am a member of the <span class="text-white">American Chemical Society</span>.</p>
             <div class="glass-card rounded-2xl p-6 not-italic">
                 <h4 class="text-sm font-bold text-white mb-4" style="font-family:'Syne',sans-serif">Snapshot</h4>
                 <ul class="space-y-4 text-xs code-font uppercase">
@@ -284,9 +282,17 @@
         </div>
         <div class="timeline-border ml-4 pl-8 space-y-10">
             <div class="relative">
+                <div class="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-emerald-500 border-4 border-zinc-950"></div>
+                <div class="flex flex-wrap items-baseline gap-3 mb-1">
+                <h4 class="text-lg font-bold uppercase tracking-tight">SUNY Research Assistant</h4>
+                <span class="code-font text-[10px] text-emerald-400 uppercase tracking-widest">June 2026 – Present</span>
+            </div>
+                <p class="text-zinc-400 text-sm mb-1">Stony Brook University, New York, USA</p>
+        </div>
+            <div class="relative">
                 <div class="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-blue-500 border-4 border-zinc-950"></div>
                 <h4 class="text-base font-bold uppercase tracking-tight">Graduate Teaching Assistant</h4>
-                <p class="text-blue-400 code-font text-[10px] uppercase mb-2 tracking-widest">Stony Brook University, NY | Aug 2025 – Present</p>
+                <p class="text-blue-400 code-font text-[10px] uppercase mb-2 tracking-widest">Stony Brook University, NY | Aug 2025 – May 2026</p>
                 <p class="text-zinc-500 text-sm max-w-2xl leading-relaxed italic">Managing laboratory sections for CHE-131/132 (General Chemistry). Mentoring undergraduates in computational methodology and chemical dynamics.</p>
             </div>
                 <div class="relative">
